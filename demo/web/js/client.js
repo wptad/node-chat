@@ -166,7 +166,7 @@ $(function() {
 		var nick = $.trim($("#nick").val());
 		
 		// TODO: move the check into nodechat.js
-		if (!nick.length || !/^[a-zA-Z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+$/.test(nick)) {
+		if (!nick.length) {
 			loginError("Invalid Nickname.");
 			return false;
 		}
