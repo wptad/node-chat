@@ -5,6 +5,20 @@ var title = document.title,
 	channel = nodeChat.connect("/chat"),
 	log,
 	message;
+var UNICODE= {
+	to: function(string){
+		if(string)
+			return escape(string).replace(/%/g,"\\").toLowerCase();
+		else
+			return ""
+	},
+	un: function(string){
+		if(string)
+			return unescape(string.replace(/\\/g, "%"))
+		else
+			return ""
+	}
+}
 
 // TODO: handle connectionerror
 
@@ -25,7 +39,7 @@ $(function() {
 	.appendTo("#entry fieldset");
 	
 	// Add a message indicator when a nickname is clicked
-	$("#users").delegate("li", "click", function() {
+	$("#users").delegate("a", "click", function() {
 		message
 			.val($(this).text() + ": " + message.val())
 			.focus();
@@ -35,6 +49,8 @@ $(function() {
 // new message posted to channel
 // - add to the chat log
 $(channel).bind("msg", function(event, message) {
+	message.text= UNICODE.un(message.text);
+	message.nick= UNICODE.un(message.nick);
 	var time = formatTime(message.timestamp),
 		row = $("<div></div>")
 			.addClass("chat-msg");
@@ -59,6 +75,8 @@ $(channel).bind("msg", function(event, message) {
 // another user joined the channel
 // - add to the chat log
 .bind("join", function(event, message) {
+	message.text= UNICODE.un(message.text);
+	message.nick= UNICODE.un(message.nick);
 	var time = formatTime(message.timestamp),
 		row = $("<div></div>")
 			.addClass("chat-msg chat-system-msg");
@@ -83,13 +101,16 @@ $(channel).bind("msg", function(event, message) {
 // another user joined the channel
 // - add to the user list
 .bind("join", function(event, message) {
+	message.text= UNICODE.un(message.text);
+	message.nick= UNICODE.un(message.nick);
 	var added = false,
-		nick  = $("<li></li>", {
-			"class": colors[0],
-			text: message.nick
+		nick  = $("<a></a>", {
+			"class": colors[0]
+			, text: message.nick
+			, "href": "javascript:void(0);"
 		});
 	colors.push(colors.shift());
-	$("#users > li").each(function() {
+	$("#users > a").each(function() {
 		if (message.nick == this.innerHTML) {
 			added = true;
 			return false;
@@ -107,6 +128,8 @@ $(channel).bind("msg", function(event, message) {
 // another user left the channel
 // - add to the chat log
 .bind("part", function(event, message) {
+	message.text= UNICODE.un(message.text);
+	message.nick= UNICODE.un(message.nick);
 	var time = formatTime(message.timestamp),
 		row = $("<div></div>")
 			.addClass("chat-msg chat-system-msg");
@@ -131,7 +154,9 @@ $(channel).bind("msg", function(event, message) {
 // another user left the channel
 // - remove from the user list
 .bind("part", function(event, message) {
-	$("#users > li").each(function() {
+	message.text= UNICODE.un(message.text);
+	message.nick= UNICODE.un(message.nick);
+	$("#users > a").each(function() {
 		if (this.innerHTML == message.nick) {
 			$(this).remove();
 			return false;
@@ -166,11 +191,11 @@ $(function() {
 		var nick = $.trim($("#nick").val());
 		
 		// TODO: move the check into nodechat.js
-		if (!nick.length) {
+		if (!nick.length || !/^[a-zA-Z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u4E00-\u9FA5]+$/.test(nick)) {
 			loginError("Invalid Nickname.");
 			return false;
 		}
-		
+		nick= UNICODE.to(nick);
 		channel.join(nick, {
 			success: function() {
 				$("body")
@@ -191,12 +216,21 @@ $(function() {
 // handle sending a message
 $(function() {
 	$("#channel form").submit(function() {
-		channel.send(message.val());
+		var escapeMessage = escape(message.val()).replace(/%/g,"\\").toLowerCase(); 
 		message.val("").focus();
+		channel.send(escapeMessage);
 		
 		return false;
 	});
 });
+
+//user-list
+$(function(){
+	$("#user-list").click(function(){
+		// alert("user-list")
+		$("#user-div").toggle(250);
+	})
+})
 
 // update the page title to show if there are unread messages
 $(function() {

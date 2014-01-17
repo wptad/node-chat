@@ -3,22 +3,24 @@
 <head>
   <meta charset="utf-8">
   <title>NodeChat</title>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
   <link rel="stylesheet" type="text/css" href="css/layout.css">
   <script src="js/jquery-1.4.2.js"></script>
   <script src="js/nodechat.js"></script>
   <script src="js/client.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
 </head>
 <body class="login">
-  <header><img src="images/node-chat.png" width="71" height="10" alt="Node Chat" /></header>
+  <header>
+    <img src="images/node-chat.png" width="71" height="10" alt="Node Chat" />
+    <a id="user-list" href="#">User List</a>
+  </header>
   
   <form id="login">
     <h1>Welcome to Node-<strong>Chat</strong></h1>
     <p>
       <label for="nick">Please choose a nickname:</label>
       <input type="text" id="nick" maxlength="50" autocomplete="off" />
+
     </p>
   </form>
   
@@ -29,12 +31,17 @@
       </div>
     </section>
     
-    <ul id="users" class="button_list">
-    </ul>
+    <div id="user-div">
+      <ul id="users" class="button_list">
+      </ul>
+    </div>
     
     <form id="entry">
       <fieldset>
-        <p><input type="text" name="message" value="" autocomplete="off" id="message" /></p>
+        <p>
+          <input type="text" name="message" value="" autocomplete="off" id="message" />
+          <!-- <textarea type="text" name="message" value="" autocomplete="off" id="message" ></textarea> -->
+        </p>
         <input type="submit" value="Send" id="Send" />
       </fieldset>
     </form>

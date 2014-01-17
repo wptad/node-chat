@@ -50,6 +50,7 @@ body > header img {
 
 /** CHAT LOG */
 #frame {
+  width: 80%;
   display: block;
   position: fixed;
 
@@ -137,16 +138,47 @@ body > header img {
 
 
 /** USER LIST */
+#user-div{
 
-#users {
   position: fixed;
+  width: 170px;
+  padding-left: 5px;
+  top: 25px;
+  right: 0px;
+  width: 155px;
+  overflow-y: auto;
+  height: 90%;
+  /*height: 0%;*/
+  display: none;
+  overflow-x: hidden;
+  background: #3c3c3c url(../images/background.png);
+  transition: height 0.25s;
+  -moz-transition: height 0.25s;  /* Firefox 4 */
+  -webkit-transition: height 0.25s; /* Safari 和 Chrome */
+  -o-transition: height 0.25s;
+  border-width: 0px 0px 0px 3px;
+  -webkit-border-image: url(../images/inset-border.png) 5 7 7 5 stretch stretch;
+  -moz-border-image: url(../images/inset-border.png) 5 7 7 5 stretch stretch;
+  border-image: url(../images/inset-border.png) 5 7 7 5 stretch stretch;
+}
+#user-list{
+  float: right;
+  line-height: 23px;
+  margin-right: 20px;
+  font-size: 14px;
+  color: #fff;
+  text-decoration: none;
+}
+#users {
+ /* position: fixed;
   width: 155px;
   top: 45px;
-  right: 25px;
+  right: 25px;*/
 }
 
-#users li {
+#users li,#users a {
   color: #ccc;
+  display: block;
   background: url(../images/button.png) no-repeat;
 
   font-size: 14px;
@@ -163,13 +195,13 @@ body > header img {
   cursor: pointer;
 }
 
-#users li:hover {
+#users li:hover, #users a:hover {
   color: #fff;
   background-position: 0 -36px;
 }
 
 
-#users li:active {
+#users li:active, #users a:active {
   color: #fff;
   line-height: 33px;
   text-indent: -1px;
@@ -177,7 +209,7 @@ body > header img {
 }
 
 /* Adds the glow */
-#users li:after {
+#users li:after,#users a:after {
   content: "";
   display: block;
   width: 57px;
@@ -189,16 +221,16 @@ body > header img {
   background: url(../images/glows.png) no-repeat;
 }
 
-#users li:active:after {
+#users li:active:after,#users a:active:after  {
   top: 26px;
 }
 
-#users li.green:after   { background-position: 0 0;}
-#users li.orange:after  { background-position: -57px 0;}
-#users li.yellow:after  { background-position: -114px 0;}
-#users li.red:after     { background-position: -171px 0;}
-#users li.fuschia:after { background-position: -228px 0;}
-#users li.blue:after    { background-position: -285px 0;}
+#users li.green:after,  #users a.green:after    { background-position: 0 0;}
+#users li.orange:after, #users a.orange:after   { background-position: -57px 0;}
+#users li.yellow:after, #users a.yellow:after   { background-position: -114px 0;}
+#users li.red:after,    #users a.red:after      { background-position: -171px 0;}
+#users li.fuschia:after,#users a.fuschia:after  { background-position: -228px 0;}
+#users li.blue:after,   #users a.blue:after     { background-position: -285px 0;}
 
 /** ENTRY FORM */
 
@@ -222,8 +254,9 @@ body > header img {
   left: 27px;
   right: 270px;
 
-  width: auto;
+  /*width: auto;*/width: 90%;
   bottom: 46px;
+  /*height: 40px;*/
   
 }
 
@@ -247,8 +280,8 @@ body > header img {
 #entry a#submit {
   position: absolute;
   background: url(../images/send.png) no-repeat;
-  right: -6px;
-  top: -4px;
+  /*right: -6px;*/right: 0px;
+  /*top: -4px;*/ bottom: -5px;
   text-align: center;
   width: 68px;
   height: 27px;
@@ -276,7 +309,7 @@ body > header img {
 
 #entry fieldset {
   position: absolute;
-  left: 20px;
+  left: 1px;
   top: 14px;
   height: 17px;
   right: 200px;
@@ -286,6 +319,7 @@ body > header img {
   -webkit-border-radius: 6px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  width: 98%;
 }
 
 /** FOOTER */
@@ -415,3 +449,6 @@ body.login header:before {
 
 body #login { display: none;}
 body.login #login { display: block;}
+
+.chat-text{word-wrap:break-word;}
+#message{width: 100%;height: 45px;margin: 0px;border: 0px;padding: 0px;background: transparent;color: #ffffff;}
